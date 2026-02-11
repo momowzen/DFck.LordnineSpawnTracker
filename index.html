@@ -2165,10 +2165,221 @@
       text-shadow: none;
       color: #9aa6b2;
     }
+
+    /* === LOGIN MODAL (Member / Admin) - matches theme === */
+    #loginModalBackdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    #loginModalBackdrop.active {
+      display: flex;
+    }
+
+    #loginModalBackdrop.hidden {
+      display: none;
+    }
+
+    .login-modal {
+      background: #0f0f0f;
+      border: 1px solid #333;
+      border-radius: 4px;
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.04);
+      padding: 28px 24px;
+      width: 340px;
+      max-width: 90%;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .login-modal h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      color: #cccccc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .login-modal .login-subtitle {
+      font-size: 12px;
+      color: #888888;
+      margin-bottom: 20px;
+    }
+
+    .login-modal .login-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .login-modal .login-btn {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #cccccc;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .login-modal .login-btn:hover {
+      background: #222;
+      border-color: #444;
+      color: #00f0ff;
+    }
+
+    .login-modal .login-btn.admin-btn:hover {
+      border-color: rgba(0, 240, 255, 0.4);
+    }
+
+    /* === ADMIN PASSWORD MODAL === */
+    #adminPasswordBackdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    #adminPasswordBackdrop.active {
+      display: flex;
+    }
+
+    #adminPasswordBackdrop.hidden {
+      display: none;
+    }
+
+    .admin-password-modal {
+      background: #0f0f0f;
+      border: 1px solid #333;
+      border-radius: 4px;
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.04);
+      padding: 28px 24px;
+      width: 340px;
+      max-width: 90%;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .admin-password-modal h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      color: #cccccc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .admin-password-modal .password-subtitle {
+      font-size: 12px;
+      color: #888888;
+      margin-bottom: 20px;
+    }
+
+    .admin-password-modal .password-input {
+      width: 100%;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #cccccc;
+      font-weight: 400;
+      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .admin-password-modal .password-input:focus {
+      outline: none;
+      border-color: #00f0ff;
+    }
+
+    .admin-password-modal .password-input::placeholder {
+      color: #666666;
+    }
+
+    .admin-password-modal .password-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .admin-password-modal .password-btn {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #cccccc;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .admin-password-modal .password-btn:hover {
+      background: #222;
+      border-color: #444;
+      color: #00f0ff;
+    }
+
+    .admin-password-modal .password-btn.cancel-btn {
+      background: #1a1a1a;
+      border-color: #333;
+    }
+
+    .admin-password-modal .password-error {
+      color: #ff3333;
+      font-size: 12px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .admin-password-modal .password-error.show {
+      display: block;
+    }
   </style>
 </head>
 
 <body>
+  <!-- Login modal: shown only when session is new (browser was closed) -->
+  <div class="modal-backdrop" id="loginModalBackdrop">
+    <div class="login-modal" role="dialog" aria-labelledby="loginModalTitle">
+      <h3 id="loginModalTitle">Select Mode</h3>
+      <div class="login-subtitle">Choose how you want to use the tracker</div>
+      <div class="login-buttons">
+        <button type="button" class="login-btn" id="loginMemberBtn">Member</button>
+        <button type="button" class="login-btn admin-btn" id="loginAdminBtn">Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin password modal: shown when admin mode is selected -->
+  <div class="modal-backdrop" id="adminPasswordBackdrop">
+    <div class="admin-password-modal" role="dialog" aria-labelledby="adminPasswordTitle">
+      <h3 id="adminPasswordTitle">Admin Access</h3>
+      <div class="password-subtitle">Enter admin password</div>
+      <div class="password-error" id="passwordError">Incorrect password</div>
+      <input type="password" class="password-input" id="adminPasswordInput" placeholder="Password">
+      <div class="password-buttons">
+        <button type="button" class="password-btn" id="adminPasswordBtn">Submit</button>
+        <button type="button" class="password-btn cancel-btn" id="adminPasswordCancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <header class="app-header">
       <div class="header-top">
@@ -3871,6 +4082,13 @@
     // === SETTINGS BUTTON + MODAL TOGGLE ===
     settingsBtn.addEventListener("click", (ev) => {
       ev.stopPropagation();
+      const userMode = sessionStorage.getItem("userMode");
+      // Keep settings hidden for member mode
+      if (userMode === "member") {
+        settingsDropdown.classList.add("hidden");
+        console.log(`⚙️ settings hidden for member mode`);
+        return;
+      }
       settingsDropdown.classList.toggle("hidden");
       if (!settingsDropdown.classList.contains("hidden")) {
         positionSettingsDropdown();
@@ -4163,7 +4381,80 @@
       console.log("✅ init completed successfully.");
     }
 
-    window.addEventListener("load", () => init());
+    // === LOGIN MODAL: show only when browser was closed (sessionStorage empty) ===
+    const loginModalBackdrop = document.getElementById("loginModalBackdrop");
+    const loginMemberBtn = document.getElementById("loginMemberBtn");
+    const loginAdminBtn = document.getElementById("loginAdminBtn");
+    const adminPasswordBackdrop = document.getElementById("adminPasswordBackdrop");
+    const adminPasswordInput = document.getElementById("adminPasswordInput");
+    const adminPasswordBtn = document.getElementById("adminPasswordBtn");
+    const adminPasswordCancelBtn = document.getElementById("adminPasswordCancelBtn");
+    const passwordError = document.getElementById("passwordError");
+    const ADMIN_PASSWORD = "masasarap69"; // Admin password
+    const needsLogin = !sessionStorage.getItem("userMode");
+
+    function selectUserMode(mode) {
+      if (mode === "admin") {
+        // Show admin password modal instead of immediately setting mode
+        if (adminPasswordBackdrop) adminPasswordBackdrop.classList.add("active");
+        if (adminPasswordInput) adminPasswordInput.value = "";
+        if (passwordError) passwordError.classList.remove("show");
+        if (adminPasswordInput) adminPasswordInput.focus();
+      } else {
+        // Member mode - proceed directly
+        sessionStorage.setItem("userMode", mode);
+        if (loginModalBackdrop) loginModalBackdrop.classList.add("hidden");
+        init();
+      }
+    }
+
+    // Admin password handling
+    if (adminPasswordBtn) {
+      adminPasswordBtn.addEventListener("click", () => {
+        const inputPassword = adminPasswordInput ? adminPasswordInput.value : "";
+        if (inputPassword === ADMIN_PASSWORD) {
+          // Correct password
+          sessionStorage.setItem("userMode", "admin");
+          if (adminPasswordBackdrop) adminPasswordBackdrop.classList.remove("active");
+          if (adminPasswordBackdrop) adminPasswordBackdrop.classList.add("hidden");
+          if (loginModalBackdrop) loginModalBackdrop.classList.add("hidden");
+          if (passwordError) passwordError.classList.remove("show");
+          init();
+        } else {
+          // Wrong password
+          if (passwordError) passwordError.classList.add("show");
+          if (adminPasswordInput) adminPasswordInput.value = "";
+          if (adminPasswordInput) adminPasswordInput.focus();
+        }
+      });
+      // Allow Enter key to submit
+      if (adminPasswordInput) {
+        adminPasswordInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") adminPasswordBtn.click();
+        });
+      }
+    }
+
+    // Cancel admin password modal
+    if (adminPasswordCancelBtn) {
+      adminPasswordCancelBtn.addEventListener("click", () => {
+        if (adminPasswordBackdrop) adminPasswordBackdrop.classList.remove("active");
+        if (adminPasswordBackdrop) adminPasswordBackdrop.classList.add("hidden");
+        if (adminPasswordInput) adminPasswordInput.value = "";
+        if (passwordError) passwordError.classList.remove("show");
+      });
+    }
+
+    if (needsLogin && loginModalBackdrop) {
+      loginModalBackdrop.classList.add("active");
+      if (loadingOverlay) loadingOverlay.style.display = "none";
+      if (loginMemberBtn) loginMemberBtn.addEventListener("click", () => selectUserMode("member"));
+      if (loginAdminBtn) loginAdminBtn.addEventListener("click", () => selectUserMode("admin"));
+    } else {
+      if (loginModalBackdrop) loginModalBackdrop.classList.add("hidden");
+      if (adminPasswordBackdrop) adminPasswordBackdrop.classList.add("hidden");
+      window.addEventListener("load", () => init());
+    }
 
     // ✅ Online presence tracking (Realtime Database)
     const presenceRef = ref(rtdb, "presence");
