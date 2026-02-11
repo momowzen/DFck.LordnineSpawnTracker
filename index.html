@@ -680,6 +680,10 @@
       color: var(--text);
     }
 
+    .clear-timer-btn.hidden {
+      display: none;
+    }
+
     /* === NEXT BOSS - CYBER HEXAGON THEME (reduced margins) === */
     #nextBoss {
       display: flex;
@@ -3693,6 +3697,8 @@
         const remainingTimeStr = formatSec(remainingSec);
         const remainingTimeLabel = translations[currentLanguage].remainingTime;
         const removeLabel = translations[currentLanguage].remove;
+        const userMode = sessionStorage.getItem("userMode");
+        const removeButtonHidden = userMode === "member" ? "hidden" : "";
 
         node.innerHTML = `
           <div class="timer-content">
@@ -3701,7 +3707,7 @@
              <div class="timer-spawn">${spawnLabel}</div>
             </div>
             <div class="timer-actions">
-             <button class="kbtn clear-timer-btn" data-id="${bossId}">${removeLabel}</button>
+             <button class="kbtn clear-timer-btn ${removeButtonHidden}" data-id="${bossId}">${removeLabel}</button>
             </div>
           </div>
           <div class="timer-expanded">
